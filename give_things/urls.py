@@ -20,6 +20,8 @@ from main_app.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPage.as_view()),
+    path('login/', Login.as_view()),
+    path('register/', Register.as_view()),
     path('add/', AddDonation.as_view()),
 
 ]
