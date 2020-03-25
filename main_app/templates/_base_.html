@@ -12,22 +12,24 @@
 <body>
 {% block header %}
 {% endblock %}
-<nav class="container container--70">
-    {% if user.is_authenticated %}
-        <li class="logged-user">
-            Witaj {{ user }}
+      <nav class="container container--70">
+          {% if user.is_authenticated %}
+        <ul class="nav--actions">
+          <li class="logged-user">
+            Witaj {{ user.first_name }}
             <ul class="dropdown">
-                <li><a href="#">Profil</a></li>
-                <li><a href="#">Moje zbiórki</a></li>
-                <li><a href="#">Wyloguj</a></li>
+              <li><a href="#">Profil</a></li>
+              <li><a href="#">Ustawienia</a></li>
+              <li><a href="/logout/">Wyloguj</a></li>
             </ul>
-        </li>
-    {% else %}
+          </li>
+        </ul>
+        {% else %}
         <ul class="nav--actions">
             <li><a href="/login/" class="btn btn--small btn--without-border">Zaloguj</a></li>
             <li><a href="/register/" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
-    {% endif %}
+        {% endif %}
 
     <ul>
         <li><a href="/" class="btn btn--without-border active">Start</a></li>

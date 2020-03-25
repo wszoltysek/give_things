@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.views import View
@@ -21,7 +22,29 @@ class LandingPage(View):
 
 class Login(View):
     def get(self, request):
-        return render(request, "user/login.html")
+        form = LoginForm()
+        ctx = {"form": form}
+        return render(request, "user/login.html", ctx)
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            if user is not None:
+                login(request, user)
+                return redirect("/")
+            else:
+                error = "Brak takiego użytkownika lub błędne hasło."
+                ctx = {"form": form, "error": error}
+                return render(request, "user/login.html", ctx)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("/")
 
 
 class Register(View):
