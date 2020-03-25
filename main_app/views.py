@@ -20,12 +20,12 @@ class LandingPage(View):
 
 class Login(View):
     def get(self, request):
-        return render(request, "login.html")
+        return render(request, "user/login.html")
 
 
 class Register(View):
     def get(self, request):
-        return render(request, "register.html")
+        return render(request, "user/register.html")
 
 
 class AddDonation(View):
