@@ -1,23 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.views import View
 
 from main_app.forms import *
 from main_app.models import *
-
-
-class LandingPage(View):
-    def get(self, request):
-        donation_count = Donation.objects. \
-            values("quantity").annotate(the_count=Count("quantity"))
-        institution_count = Donation.objects. \
-            values("institution").annotate(the_count=Count("institution"))
-        ctx = {
-            "donation_count": donation_count,
-            "institution_count": institution_count
-        }
-        return render(request, "index.html", ctx)
 
 
 class Login(View):
@@ -64,6 +52,21 @@ class Register(View):
             return render(request, "user/register.html", ctx)
 
 
-class AddDonation(View):
+class LandingPage(View):
+    def get(self, request):
+        donation_count = Donation.objects. \
+            values("quantity").annotate(the_count=Count("quantity"))
+        institution_count = Donation.objects. \
+            values("institution").annotate(the_count=Count("institution"))
+        ctx = {
+            "donation_count": donation_count,
+            "institution_count": institution_count
+        }
+        return render(request, "index.html", ctx)
+
+
+class AddDonation(LoginRequiredMixin, View):
+    login_url = '/login/'
+
     def get(self, request):
         return render(request, "form.html")
