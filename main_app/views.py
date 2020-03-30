@@ -52,17 +52,24 @@ class Register(View):
             return render(request, "user/register.html", ctx)
 
 
+class UserPanel(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request):
+        return render(request, "user/panel.html")
+
+
 class LandingPage(View):
     def get(self, request):
         donations = Donation.objects.all()
-        institutions_already_donated = Institution.objects.filter(donation__quantity__gt=0).count()
+        institutions_donated = Institution.objects.filter(donation__quantity__gt=0).count()
         all_institutions = Institution.objects.all()
         bags_qty = 0
         for bags in donations:
             bags_qty += bags.quantity
         ctx = {
             'bags_qty': bags_qty,
-            'institutions_already_donated': institutions_already_donated,
+            'institutions_donated': institutions_donated,
             'all_institutions': all_institutions
         }
         return render(request, 'index.html', ctx)

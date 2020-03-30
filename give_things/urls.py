@@ -23,6 +23,7 @@ urlpatterns = [
     path('login/', Login.as_view()),
     path('logout/', logout_view),
     path('register/', Register.as_view()),
+    path('panel/', UserPanel.as_view()),
     path('add/', AddDonation.as_view()),
     path('confirmation/', Confirmation.as_view())
 ]
