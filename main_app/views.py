@@ -8,6 +8,23 @@ from main_app.forms import *
 from main_app.models import *
 
 
+class Register(View):
+    def get(self, request):
+        form = RegisterForm()
+        ctx = {"form": form}
+        return render(request, "user/register.html", ctx)
+
+    def post(self, request):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/login/')
+        else:
+            print(form.errors)
+            ctx = {"form": form}
+            return render(request, "user/register.html", ctx)
+
+
 class Login(View):
     def get(self, request):
         form = LoginForm()
@@ -30,33 +47,16 @@ class Login(View):
                 return render(request, "user/login.html", ctx)
 
 
-def logout_view(request):
-    logout(request)
-    return redirect("/")
-
-
-class Register(View):
-    def get(self, request):
-        form = RegisterForm()
-        ctx = {"form": form}
-        return render(request, "user/register.html", ctx)
-
-    def post(self, request):
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/login/')
-        else:
-            print(form.errors)
-            ctx = {"form": form}
-            return render(request, "user/register.html", ctx)
-
-
 class UserPanel(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request):
         return render(request, "user/panel.html")
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("/")
 
 
 class LandingPage(View):
