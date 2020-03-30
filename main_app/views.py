@@ -54,15 +54,18 @@ class Register(View):
 
 class LandingPage(View):
     def get(self, request):
-        donation_count = Donation.objects. \
-            values("quantity").annotate(the_count=Count("quantity"))
-        institution_count = Donation.objects. \
-            values("institution").annotate(the_count=Count("institution"))
+        donations = Donation.objects.all()
+        institutions_already_donated = Institution.objects.filter(donation__quantity__gt=0).count()
+        all_institutions = Institution.objects.all()
+        bags_qty = 0
+        for bags in donations:
+            bags_qty += bags.quantity
         ctx = {
-            "donation_count": donation_count,
-            "institution_count": institution_count
+            'bags_qty': bags_qty,
+            'institutions_already_donated': institutions_already_donated,
+            'all_institutions': all_institutions
         }
-        return render(request, "index.html", ctx)
+        return render(request, 'index.html', ctx)
 
 
 class AddDonation(LoginRequiredMixin, View):
@@ -71,8 +74,17 @@ class AddDonation(LoginRequiredMixin, View):
     def get(self, request):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
+        donations = DonationForm()
         ctx = {
             "categories": categories,
-            "institutions": institutions
+            "institutions": institutions,
+            "donations": donations
         }
         return render(request, "form.html", ctx)
+
+
+class Confirmation(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request):
+        return render(request, "form-confirmation.html")

@@ -24,5 +24,5 @@ urlpatterns = [
     path('logout/', logout_view),
     path('register/', Register.as_view()),
     path('add/', AddDonation.as_view()),
-
+    path('confirmation/', Confirmation.as_view())
 ]
