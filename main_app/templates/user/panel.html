@@ -55,9 +55,11 @@
               {% for donation in donations %}
             <div class="col">
               <div class="title">Dar dla: {{ donation.institution.first }}</div><br>
+            <div class="subtitle">Kategorie:</div>
                 {% for category in donation.categories.all %}
-              <div class="subtitle">Kategorie: {{ category }}</div>
+              <div class="subtitle">{{ category }}</div>
                 {% endfor %}
+                <br>
               <div class="subtitle">Ilość worków: {{ donation.quantity }}</div>
               <div class="subtitle">Odbiór: {{ donation.pick_up_date }}</div><br>
               <div class="subtitle">

@@ -55,13 +55,16 @@
                 <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
             </div>
         </div>
+
         <div class="form--steps-container">
             <div class="form--steps-counter">Krok <span>1</span>/5</div>
+
             <form action="" method="post">
                 {% csrf_token %}
                 <!-- STEP 1: class .active is switching steps -->
                 <div data-step="1" class="active">
                     <h3>Zaznacz co chcesz oddać:</h3>
+
                     {% for category in categories %}
                         <div class="form-group form-group--checkbox">
                             <label>
@@ -72,27 +75,34 @@
                         </div>
                     {% endfor %}
                     <input id="categories-array" name="categories-choose" type="hidden" value="">
+
                     <div class="form-group form-group--buttons">
                         <button type="button" class="btn next-step">Dalej</button>
                     </div>
                 </div>
+
                 <!-- STEP 2 -->
                 <div data-step="2">
                     <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+
                     <div class="form-group form-group--inline">
                         <label>
                             Liczba 60l worków:
                             <input id="bag-quantity" type="number" name="bags" step="1" min="1"/>
                         </label>
                     </div>
+
                     <div class="form-group form-group--buttons">
                         <button type="button" class="btn prev-step">Wstecz</button>
                         <button type="button" class="btn next-step">Dalej</button>
                     </div>
                 </div>
+
+
                 <!-- STEP 3 -->
                 <div data-step="3">
                     <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+
                     {% for institution in institutions %}
                         <div id="institution-choice" class="form-group form-group--checkbox" style="display: none">
                             {% for category in institution.categories.all %}
@@ -112,42 +122,51 @@
                             </label>
                         </div>
                     {% endfor %}
+
                     <div class="form-group form-group--buttons">
                         <button type="button" class="btn prev-step">Wstecz</button>
                         <button type="button" class="btn next-step">Dalej</button>
                     </div>
                 </div>
+
                 <!-- STEP 4 -->
                 <div data-step="4">
                     <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
+
                     <div class="form-section form-section--columns">
                         <div class="form-section--column">
                             <h4>Adres odbioru</h4>
                             <div class="form-group form-group--inline">
                                 <label> Ulica <input id="address-street" type="text" name="address"/> </label>
                             </div>
+
                             <div class="form-group form-group--inline">
                                 <label> Miasto <input id="address-city" type="text" name="city"/> </label>
                             </div>
+
                             <div class="form-group form-group--inline">
                                 <label>
                                     Kod pocztowy <input id="address-zipcode" type="text" name="zip_code"/>
                                 </label>
                             </div>
+
                             <div class="form-group form-group--inline">
                                 <label>
                                     Numer telefonu <input id="summary-phone" type="phone" name="phone"/>
                                 </label>
                             </div>
                         </div>
+
                         <div class="form-section--column">
                             <h4>Termin odbioru</h4>
                             <div class="form-group form-group--inline">
                                 <label> Data <input id="pickup-date" type="date" name="date"/> </label>
                             </div>
+
                             <div class="form-group form-group--inline">
                                 <label> Godzina <input id="pickup-time" type="time" name="time"/> </label>
                             </div>
+
                             <div class="form-group form-group--inline">
                                 <label>
                                     Uwagi dla kuriera
@@ -161,9 +180,11 @@
                         <button type="button" class="btn next-step">Dalej</button>
                     </div>
                 </div>
+
                 <!-- STEP 5 -->
                 <div data-step="5">
                     <h3>Podsumowanie Twojej darowizny</h3>
+
                     <div class="summary">
                         <div class="form-section">
                             <h4>Oddajesz:</h4>
@@ -174,6 +195,7 @@
                                     ></span
                                     >
                                 </li>
+
                                 <li>
                                     <span class="icon icon-hand"></span>
                                     <span id="summary-institution-name" class="summary--text"
@@ -182,6 +204,7 @@
                                 </li>
                             </ul>
                         </div>
+
                         <div class="form-section form-section--columns">
                             <div class="form-section--column">
                                 <h4>Adres odbioru:</h4>
@@ -192,6 +215,7 @@
                                     <li id="summary-phone"></li>
                                 </ul>
                             </div>
+
                             <div class="form-section--column">
                                 <h4>Termin odbioru:</h4>
                                 <ul>
