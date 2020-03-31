@@ -50,7 +50,9 @@ class UserPanel(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request):
-        return render(request, "user/panel.html")
+        donations = Donation.objects.filter(user=request.user).order_by('pick_up_date')
+        ctx = {"donations": donations}
+        return render(request, "user/panel.html", ctx)
 
 
 def logout_view(request):
@@ -81,26 +83,25 @@ class AddDonation(LoginRequiredMixin, View):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
         ctx = {
-            "categories": categories,
-            "institutions": institutions
+            'categories': categories,
+            'institutions': institutions
         }
         return render(request, "form.html", ctx)
 
     def post(self, request):
         categories = request.POST.get('categories-choose').split(',')
-        new_donation = Donation.objects.create(
-            quantity=request.POST.get('bags'),
-            address=request.POST.get('address'),
-            city=request.POST.get('city'),
-            zip_code=request.POST.get('zip_code'),
-            phone_number=request.POST.get('phone'),
-            pick_up_date=request.POST.get('date'),
-            pick_up_time=request.POST.get('time'),
-            pick_up_comment=request.POST.get('more_info'),
-            user_id=request.user.pk
-        )
+        new_donation = Donation.objects.create(quantity=request.POST.get('bags'),
+                                               address=request.POST.get('address'),
+                                               city=request.POST.get('city'),
+                                               zip_code=request.POST.get('zip_code'),
+                                               phone_number=request.POST.get('phone'),
+                                               pick_up_date=request.POST.get('date'),
+                                               pick_up_time=request.POST.get('time'),
+                                               pick_up_comment=request.POST.get('more_info'),
+                                               user_id=request.user.pk)
         for category_name in categories:
-            new_donation.categories.add(Category.objects.get(name=category_name))
+            new_donation.categories.add(Category.objects.get(name=request.POST.get('categories')).pk)
+            # new_donation.categories.add(Category.objects.get(name=category_name))
             new_donation.save()
         new_donation.institution.add(Institution.objects.get(name=request.POST.get('institution')).pk)
         new_donation.save()

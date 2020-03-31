@@ -37,28 +37,26 @@
     </header>
 
     <section class="form--steps">
-      <div class="form--steps-instructions">
-        <div class="form--steps-container">
-          <h3>Ważne!</h3>
-          <p data-step="1" class="active">
-            Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-            wiedzieć komu najlepiej je przekazać.
-          </p>
-          <p data-step="2">
-            Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
-            wiedzieć komu najlepiej je przekazać.
-          </p>
-          <p data-step="3">
-           Wybierz jedną, do
-            której trafi Twoja przesyłka.
-          </p>
-          <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
+        <div class="form--steps-instructions">
+            <div class="form--steps-container">
+                <h3>Ważne!</h3>
+                <p data-step="1" class="active">
+                    Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
+                    wiedzieć komu najlepiej je przekazać.
+                </p>
+                <p data-step="2">
+                    Uzupełnij szczegóły dotyczące Twoich rzeczy. Dzięki temu będziemy
+                    wiedzieć komu najlepiej je przekazać.
+                </p>
+                <p data-step="3">
+                    Wybierz jedną, do
+                    której trafi Twoja przesyłka.
+                </p>
+                <p data-step="4">Podaj adres oraz termin odbioru rzeczy.</p>
+            </div>
         </div>
-      </div>
-
-      <div class="form--steps-container">
-        <div class="form--steps-counter">Krok <span>1</span>/5</div>
-
+        <div class="form--steps-container">
+            <div class="form--steps-counter">Krok <span>1</span>/5</div>
             <form action="" method="post">
                 {% csrf_token %}
                 <!-- STEP 1: class .active is switching steps -->
@@ -210,7 +208,7 @@
                     </div>
                 </div>
             </form>
-      </div>
+        </div>
     </section>
   {% endblock %}
   </body>
