@@ -64,15 +64,13 @@
               </div><br>
               <div class="subtitle">Status:<br>
                   {% if donation.collected == False %}
-                      <strong style="background-color: red">Nieodebrana</strong>
+                      <strong style="background-color: red">Nieodebrany</strong>
                       <br><br>
-                      <form action="" method="post">
-                          {% csrf_token %}
-                          Odebrana? {{ form.collected }}
-                          <input type="submit" value = "Wyślij">
-                      </form>
+                      <a href="/change/{{ donation.id }}/">[Zmień status]</a>
                   {% else %}
-                      <strong style="background-color: green">Odebrana</strong>
+                      <strong style="background-color: green">Odebrany</strong>
+                      <br><br>
+                      <a href="/change/{{ donation.id }}/">[Zmień status]</a>
                   {% endif %}
               </div>
             </div>
