@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.forms import TextInput, ModelForm
+from django.forms import TextInput
 
 from main_app.models import *
 
@@ -24,18 +23,3 @@ class RegisterForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(label="Hasło", widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}))
-
-
-class CategoryForm(ModelForm):
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-
-class DonationForm(ModelForm):
-    class Meta:
-        model = Donation
-        fields = [
-            'quantity', 'address', 'city', 'zip_code', 'phone_number',
-            'pick_up_date', 'pick_up_time', 'pick_up_comment'
-        ]
