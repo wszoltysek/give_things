@@ -26,6 +26,12 @@ class Institution(models.Model):
         return self.name
 
 
+COLLECTED = (
+    (True, 'Yes'),
+    (False, 'No')
+)
+
+
 class Donation(models.Model):
     quantity = models.IntegerField()
     categories = models.ManyToManyField(Category)
@@ -37,6 +43,7 @@ class Donation(models.Model):
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.TextField()
+    collected = models.BooleanField(choices=COLLECTED, default=False, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

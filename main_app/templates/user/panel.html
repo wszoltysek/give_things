@@ -59,7 +59,22 @@
               <div class="subtitle">Kategorie: {{ category }}</div>
                 {% endfor %}
               <div class="subtitle">Ilość worków: {{ donation.quantity }}</div>
-              <div class="subtitle">Odbiór: {{ donation.pick_up_date }}</div>
+              <div class="subtitle">Odbiór: {{ donation.pick_up_date }}</div><br>
+              <div class="subtitle">
+              </div><br>
+              <div class="subtitle">Status:<br>
+                  {% if donation.collected == False %}
+                      <strong style="background-color: red">Nieodebrana</strong>
+                      <br><br>
+                      <form action="" method="post">
+                          {% csrf_token %}
+                          Odebrana? {{ form.collected }}
+                          <input type="submit" value = "Wyślij">
+                      </form>
+                  {% else %}
+                      <strong style="background-color: green">Odebrana</strong>
+                  {% endif %}
+              </div>
             </div>
               {% endfor %}
           </li>

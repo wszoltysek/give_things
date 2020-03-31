@@ -50,9 +50,20 @@ class UserPanel(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request):
-        donations = Donation.objects.filter(user=request.user).order_by('pick_up_date')
-        ctx = {"donations": donations}
+        donations = Donation.objects.filter(user=request.user).order_by('collected')
+        form = CollectedForm()
+        ctx = {
+            "donations": donations,
+            "form": form
+        }
         return render(request, "user/panel.html", ctx)
+
+    # def post(self, request):
+    #     form = CollectedForm(request.POST)
+    #     if form.is_valid():
+    #         donations = Donation.objects.filter(user=request.user).order_by('collected')
+    #         form.save()
+    #         return redirect("/panel/")
 
 
 def logout_view(request):

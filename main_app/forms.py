@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import TextInput
+from django.forms import TextInput, ModelForm
 
 from main_app.models import *
 
@@ -23,3 +23,16 @@ class RegisterForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
     password = forms.CharField(label="Hasło", widget=forms.PasswordInput(attrs={'placeholder': 'Hasło'}))
+
+#
+# class CollectedForm(ModelForm):
+#     class Meta:
+#         model = Donation
+#         fields = ['collected']
+#         widgets = {
+#             'collected': forms.RadioSelect
+#         }
+
+
+class CollectedForm(forms.Form):
+    collected = forms.BooleanField()
