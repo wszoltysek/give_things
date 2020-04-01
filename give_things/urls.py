@@ -20,6 +20,8 @@ from main_app.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', LandingPage.as_view(), name='index'),
+    path('contact/', ContactForm.as_view(), name='contact'),
+    path('success/', ContactSuccess.as_view(), name='success'),
 
     path('login/', Login.as_view(), name='login'),
     path('logout/', logout_view, name='logout'),

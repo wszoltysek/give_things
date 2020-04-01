@@ -1,3 +1,4 @@
+from django.core.mail import EmailMessage
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -59,7 +60,7 @@ class Settings(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request):
-        return render(request, 'user/settings.html')
+        return render(request, "user/settings.html")
 
     def post(self, request):
         check = request.POST['password1']
@@ -73,12 +74,12 @@ class Settings(LoginRequiredMixin, View):
                 user.email = request.POST['email']
                 user.username = request.POST['email']
             user.save()
-            msg = 'Poprawnie zmieniono dane'
+            msg = "Poprawnie zmieniono dane."
             ctx = {'msg': msg}
-            return render(request, 'user/settings.html', ctx)
-        msg = 'Błędne hasło!'
-        ctx = {'msg': msg}
-        return render(request, 'user/settings.html', ctx)
+            return render(request, "user/settings.html", ctx)
+        msg = "Błędne hasło!"
+        ctx = {"msg": msg}
+        return render(request, "user/settings.html", ctx)
 
 
 class PasswordChange(LoginRequiredMixin, View):
@@ -91,9 +92,10 @@ class PasswordChange(LoginRequiredMixin, View):
             if request.POST['new_password'] == request.POST['new_password2']:
                 user.set_password(request.POST['new_password'])
                 user.save()
-            return redirect('main_page')
-        msg = 'Błędne hasło'
-        return render(request, 'user/settings.html', {'msg':msg})
+            return redirect('/')
+        msg = "Błędne hasło."
+        ctx = {"msg": msg}
+        return render(request, 'user/settings.html', ctx)
 
 
 class ChangeStatus(LoginRequiredMixin, View):
@@ -106,7 +108,7 @@ class ChangeStatus(LoginRequiredMixin, View):
         else:
             status.collected = True
         status.save()
-        return redirect('/panel/')
+        return redirect("panel")
 
 
 def logout_view(request):
@@ -127,7 +129,7 @@ class LandingPage(View):
             'institutions_donated': institutions_donated,
             'all_institutions': all_institutions
         }
-        return render(request, 'index.html', ctx)
+        return render(request, "index.html", ctx)
 
 
 class AddDonation(LoginRequiredMixin, View):
@@ -136,8 +138,11 @@ class AddDonation(LoginRequiredMixin, View):
     def get(self, request):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
-        return render(request, 'form.html', {'categories': categories,
-                                             'institutions': institutions})
+        ctx = {
+            "categories": categories,
+            "institutions": institutions
+        }
+        return render(request, "form.html", ctx)
 
     def post(self, request):
         categories = request.POST.get('categories-choose').split(',')
@@ -157,7 +162,7 @@ class AddDonation(LoginRequiredMixin, View):
             new_donation.save()
         new_donation.institution.add(Institution.objects.get(name=request.POST.get('institution')).pk)
         new_donation.save()
-        return redirect('/confirmation/')
+        return redirect("confirmation")
 
 
 class Confirmation(LoginRequiredMixin, View):
@@ -165,3 +170,19 @@ class Confirmation(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, "form-confirmation.html")
+
+
+class ContactForm(View):
+    def post(self, request):
+        message = request.POST['message']
+        admins = User.objects.filter(is_superuser=True)
+        mails = [admin.email for admin in admins if len(admin.email) > 3]
+        subject = f'Kontakt od {request.POST["name"]} {request.POST["surname"]}'
+        email = EmailMessage(subject, message, to=mails)
+        email.send()
+        return redirect("success")
+
+
+class ContactSuccess(View):
+    def get(self, request):
+        return render(request, "contact-success.html")
