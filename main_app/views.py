@@ -51,7 +51,7 @@ class UserPanel(LoginRequiredMixin, View):
 
     def get(self, request):
         donations = Donation.objects.filter(user=request.user).order_by('pick_up_date').order_by('collected')
-        ctx = {"donations": donations,}
+        ctx = {"donations": donations}
         return render(request, "user/panel.html", ctx)
 
 

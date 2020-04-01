@@ -9,9 +9,11 @@ class Category(models.Model):
         return self.name
 
 
-INSTITUTION_TYPE = ((0, 'Fundacja'),
-                    (1, 'Organizacja pozarządowa'),
-                    (2, 'Zbiórka lokalna'))
+INSTITUTION_TYPE = (
+    (0, 'Fundacja'),
+    (1, 'Organizacja pozarządowa'),
+    (2, 'Zbiórka lokalna')
+)
 
 
 class Institution(models.Model):
