@@ -55,7 +55,50 @@ class UserPanel(LoginRequiredMixin, View):
         return render(request, "user/panel.html", ctx)
 
 
-class ChangeStatus(View):
+class Settings(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request):
+        return render(request, 'user/settings.html')
+
+    def post(self, request):
+        check = request.POST['password1']
+        if request.user.check_password(check):
+            user = User.objects.get(pk=request.user.id)
+            if request.POST['first_name']:
+                user.first_name = request.POST['first_name']
+            if request.POST['last_name']:
+                user.last_name = request.POST['last_name']
+            if request.POST['email']:
+                user.email = request.POST['email']
+                user.username = request.POST['email']
+            user.save()
+            msg = 'Poprawnie zmieniono dane'
+            ctx = {'msg': msg}
+            return render(request, 'user/settings.html', ctx)
+        msg = 'Błędne hasło!'
+        ctx = {'msg': msg}
+        return render(request, 'user/settings.html', ctx)
+
+
+class PasswordChange(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def post(self, request):
+        check = request.POST['password2']
+        if request.user.check_password(check):
+            user = User.objects.get(pk=request.user.id)
+            if request.POST['new_password'] == request.POST['new_password2']:
+                user.set_password(request.POST['new_password'])
+                user.save()
+            return redirect('main_page')
+        msg = 'Błędne hasło'
+        return render(request, 'user/settings.html', {'msg':msg})
+
+
+class ChangeStatus(LoginRequiredMixin, View):
+    login_url = '/login/'
+
     def get(self, request, id):
         status = Donation.objects.get(pk=id)
         if status.collected:

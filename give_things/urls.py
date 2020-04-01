@@ -19,12 +19,16 @@ from main_app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LandingPage.as_view()),
-    path('login/', Login.as_view()),
-    path('logout/', logout_view),
-    path('register/', Register.as_view()),
-    path('panel/', UserPanel.as_view()),
-    path('add/', AddDonation.as_view()),
-    path('change/<int:id>/', ChangeStatus.as_view()),
-    path('confirmation/', Confirmation.as_view())
+    path('', LandingPage.as_view(), name='index'),
+
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('register/', Register.as_view(), name='register'),
+    path('panel/', UserPanel.as_view(), name='panel'),
+    path('settings/', Settings.as_view(), name='settings'),
+    path('password/', PasswordChange.as_view(), name='password_change'),
+
+    path('add/', AddDonation.as_view(), name='add'),
+    path('change/<int:id>/', ChangeStatus.as_view(), name='status'),
+    path('confirmation/', Confirmation.as_view(), name='confirmation')
 ]
