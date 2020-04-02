@@ -51,7 +51,8 @@ class UserPanel(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def get(self, request):
-        donations = Donation.objects.filter(user=request.user).order_by('pick_up_date').order_by('collected')
+        donations = Donation.objects.filter(user=request.user)\
+            .order_by('collected', 'pick_up_date')
         ctx = {"donations": donations}
         return render(request, "user/panel.html", ctx)
 
@@ -92,10 +93,10 @@ class PasswordChange(LoginRequiredMixin, View):
             if request.POST['new_password'] == request.POST['new_password2']:
                 user.set_password(request.POST['new_password'])
                 user.save()
-            return redirect('/')
+            return redirect("/")
         msg = "Błędne hasło."
         ctx = {"msg": msg}
-        return render(request, 'user/settings.html', ctx)
+        return render(request, "user/settings.html", ctx)
 
 
 class ChangeStatus(LoginRequiredMixin, View):
@@ -155,12 +156,11 @@ class AddDonation(LoginRequiredMixin, View):
             pick_up_date=request.POST.get('date'),
             pick_up_time=request.POST.get('time'),
             pick_up_comment=request.POST.get('more_info'),
-            user_id=request.user.pk
+            user=request.user
         )
         for category_name in categories:
             new_donation.categories.add(Category.objects.get(name=category_name))
-            new_donation.save()
-        new_donation.institution.add(Institution.objects.get(name=request.POST.get('institution')).pk)
+        new_donation.institution.add(Institution.objects.get(name=request.POST.get('institution')))
         new_donation.save()
         return redirect("confirmation")
 
