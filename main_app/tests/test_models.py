@@ -117,3 +117,49 @@ def test_edit_donation():
     assert donation.pick_up_date == "2020-06-17"
     assert previous_donation_comment != donation.pick_up_comment
     assert donation.pick_up_comment == "Comment"
+
+
+# TESTS FOR DELETE MODELS:
+
+@pytest.mark.django_db
+def test_delete_user():
+    # Given:
+    user = fake_user()
+    users_before_deletion = User.objects.count()
+    # When:
+    user.delete()
+    # Then:
+    assert User.objects.count() == users_before_deletion - 1
+
+
+@pytest.mark.django_db
+def test_delete_category():
+    # Given:
+    category = fake_category()
+    categories_before_deletion = Category.objects.count()
+    # When:
+    category.delete()
+    # Then:
+    assert Category.objects.count() == categories_before_deletion - 1
+
+
+@pytest.mark.django_db
+def test_delete_institution():
+    # Given:
+    institution = fake_institution()
+    institution_before_deletion = Institution.objects.count()
+    # When:
+    institution.delete()
+    # Then:
+    assert Institution.objects.count() == institution_before_deletion - 1
+
+
+@pytest.mark.django_db
+def test_delete_donation():
+    # Given:
+    donation = fake_donation()
+    donation_before_deletion = Donation.objects.count()
+    # When:
+    donation.delete()
+    # Then:
+    assert Donation.objects.count() == donation_before_deletion - 1
