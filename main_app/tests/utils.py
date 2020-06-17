@@ -19,17 +19,15 @@ def fake_institution():
     new_institution = Institution.objects.create(
         name=faker.word(),
         description=faker.sentence(),
-        categories=fake_category(),
-        type=faker.name()
+        type=randint(0, 2)
     )
+    new_institution.categories.add(fake_category())
     return new_institution
 
 
 def fake_donation():
     new_donation = Donation.objects.create(
         quantity=randint(1, 5),
-        categories=fake_category(),
-        institution=fake_institution(),
         address=faker.address(),
         phone_number=randint(1000, 2000),
         city=faker.word(),
@@ -40,4 +38,6 @@ def fake_donation():
         collected=faker.boolean(),
         user=fake_user()
     )
+    new_donation.categories.add(fake_category())
+    new_donation.institution.add(fake_institution())
     return new_donation
