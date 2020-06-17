@@ -51,3 +51,69 @@ def test_create_donation():
     assert Donation.objects.count() == donations_before + 1
     assert Donation.objects.count() == 1
     assert new_donation.pk == 1
+
+
+# TESTS FOR EDIT MODELS:
+
+@pytest.mark.django_db
+def test_edit_user():
+    # Given:
+    user = fake_user()
+    # When:
+    previous_user_name = user.username
+    user.username = "Charity"
+    # Then:
+    assert previous_user_name != user.username
+    assert user.username == "Charity"
+
+
+@pytest.mark.django_db
+def test_edit_category():
+    # Given:
+    category = fake_category()
+    # When:
+    previous_category_name = category.name
+    category.name = "Clothes"
+    # Then:
+    assert previous_category_name != category.name
+    assert category.name == "Clothes"
+
+
+@pytest.mark.django_db
+def test_edit_institution():
+    # Given:
+    institution = fake_institution()
+    # When:
+    previous_institution_name = institution.name
+    institution.name = "Fundacja"
+    previous_institution_description = institution.description
+    institution.description = "Some description"
+    previous_institution_pk = institution.pk
+    institution.pk = 2
+    # Then:
+    assert previous_institution_name != institution.name
+    assert institution.name == "Fundacja"
+    assert previous_institution_description != institution.description
+    assert institution.description == "Some description"
+    assert previous_institution_pk != institution.pk
+    assert institution.pk == 2
+
+
+@pytest.mark.django_db
+def test_edit_donation():
+    # Given:
+    donation = fake_donation()
+    # When:
+    previous_donation_city = donation.city
+    donation.city = "Katowice"
+    previous_donation_date = donation.pick_up_date
+    donation.pick_up_date = "2020-06-17"
+    previous_donation_comment = donation.pick_up_comment
+    donation.pick_up_comment = "Comment"
+    # Then:
+    assert previous_donation_city != donation.city
+    assert donation.city == "Katowice"
+    assert previous_donation_date != donation.pick_up_date
+    assert donation.pick_up_date == "2020-06-17"
+    assert previous_donation_comment != donation.pick_up_comment
+    assert donation.pick_up_comment == "Comment"
