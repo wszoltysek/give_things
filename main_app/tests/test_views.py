@@ -113,10 +113,14 @@ def test_view_donation_change_status_get():
     donation = fake_donation()
     response = client.get(f"/change/{donation.pk}/")
     assert response.status_code == 302
+    assert donation.collected is True
 
 
 @pytest.mark.django_db
 def test_view_donation_change_status_post():
     donation = fake_donation()
+    donation.collected = False
     response = client.post(f"/change/{donation.pk}/")
     assert response.status_code == 302
+    assert donation.collected is False
+
