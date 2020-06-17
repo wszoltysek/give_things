@@ -3,7 +3,7 @@
 The goal of the project is to create a place where everyone can give unnecessary items to trusted institutions.
 Things that others may need more than us. 
 
-Some app functionalities:
+**Some app functionalities:**
 - User interface (register, login, logout, profile-panel, donations - for multiply users)
 - One-page charity multi-section form (only for registered users):
     - Choose things which you want to give
@@ -11,6 +11,13 @@ Some app functionalities:
     - Enter quantity
     - Provide donor and pick-up information
 - Contact form with email sender to app admins
+
+**Test coverage:**
+
+Project covered with unittests (pytest module):
+- Models tests (create, update, delete)
+- Views tests (get & post)
+
 
 ![](https://github.com/wszoltysek/give_things/blob/master/main_app/static/images/readme.png?raw=true)
 
