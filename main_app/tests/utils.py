@@ -35,7 +35,7 @@ def fake_donation():
         pick_up_date=faker.date(),
         pick_up_time=faker.time(),
         pick_up_comment=faker.sentence(),
-        collected=faker.boolean(),
+        collected=True,
         user=fake_user()
     )
     new_donation.categories.add(fake_category())
