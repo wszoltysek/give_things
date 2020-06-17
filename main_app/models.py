@@ -10,9 +10,9 @@ class Category(models.Model):
 
 
 INSTITUTION_TYPE = (
-    (0, 'Fundacja'),
-    (1, 'Organizacja pozarządowa'),
-    (2, 'Zbiórka lokalna')
+    (0, "Fundacja"),
+    (1, "Organizacja pozarządowa"),
+    (2, "Zbiórka lokalna")
 )
 
 
