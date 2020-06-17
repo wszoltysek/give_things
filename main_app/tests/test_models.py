@@ -110,6 +110,8 @@ def test_edit_donation():
     donation.pick_up_date = "2020-06-17"
     previous_donation_comment = donation.pick_up_comment
     donation.pick_up_comment = "Comment"
+    previous_donation_status = donation.collected
+    donation.collected = False
     # Then:
     assert previous_donation_city != donation.city
     assert donation.city == "Katowice"
@@ -117,6 +119,8 @@ def test_edit_donation():
     assert donation.pick_up_date == "2020-06-17"
     assert previous_donation_comment != donation.pick_up_comment
     assert donation.pick_up_comment == "Comment"
+    assert previous_donation_status != donation.collected
+    assert donation.collected is False
 
 
 # TESTS FOR DELETE MODELS:
